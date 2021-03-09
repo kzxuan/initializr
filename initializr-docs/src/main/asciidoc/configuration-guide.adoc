@@ -872,7 +872,7 @@ those two ids are displayed in the capabilities of the service):
 
 [source]
 ----
-$ curl http://localhost:8080/starter.zip -d dependencies=web,devtools \
+$ curl -G http://localhost:8080/starter.zip -d dependencies=web,devtools \
            -d bootVersion=2.3.5.RELEASE -o my-project.zip
 ----
 
@@ -1142,6 +1142,9 @@ If you use the service, you'll notice that the logs have lots of entries with th
 checking for the latest Spring Boot versions too often, you should enable caching on your
 service. Spring Initializr has some auto-configuration to apply the proper caches if you
 are willing to use a JCache (JSR-107) implementation.
+
+NOTE: The caches are created with an auto-configured `JCacheManagerCustomizer` with order `0` and only if they don't exist already.
+You can contribute a bean of the same type with a lower `@Order` to override some of the configuration to suit your specific needs.
 
 Add the `javax.cache:cache-api` and your favorite JCache implementation and simply enable
 caching by adding `@EnableCaching` to your `@SpringBootApplication`. For instance, you
